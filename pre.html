@@ -1,0 +1,61 @@
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from pptx.enum.shapes import MSO_SHAPE
+from pptx.dml.color import RGBColor
+
+# Create a presentation
+prs = Presentation()
+
+# Slide layouts
+layout_title = prs.slide_layouts[0]
+layout_content = prs.slide_layouts[1]
+
+# Stickers (emojis or simple visuals)
+stickers = ["📚", "🧠", "💡", "🌟", "🧘", "🎯", "🚀", "👏"]
+
+# Slide 1: Title Slide
+slide = prs.slides.add_slide(layout_title)
+title = slide.shapes.title
+subtitle = slide.placeholders[1]
+title.text = "Benefits of Reading Books"
+subtitle.text = "Unlocking Knowledge, Imagination, and Growth\n\nYour Name | Date"
+
+# Content for slides
+slides_content = [
+    ("Introduction", ["Opens new worlds", "Builds stronger minds", "Essential for personal growth"]),
+    ("Boosts Knowledge", ["Increases vocabulary and comprehension", "Deepens understanding of different subjects", "Builds expertise and awareness"]),
+    ("Enhances Imagination and Creativity", ["Sparks new ideas and visions", "Develops creative thinking", "Inspires innovation and storytelling"]),
+    ("Improves Mental Health", ["Reduces stress and anxiety", "Promotes relaxation and mindfulness", "Boosts empathy and emotional health"]),
+    ("Strengthens Focus and Concentration", ["Improves attention span", "Sharpens thinking and patience", "Helps overcome digital distractions"]),
+    ("Lifelong Learning and Growth", ["Encourages lifelong learning", "Strengthens critical thinking skills", "Prepares for success in life and career"]),
+    ("Conclusion", ["Knowledge + Imagination + Growth", "Make reading a daily habit!"])
+]
+
+# Add content slides
+for idx, (title_text, bullet_points) in enumerate(slides_content):
+    slide = prs.slides.add_slide(layout_content)
+    shapes = slide.shapes
+    title = shapes.title
+    body = shapes.placeholders[1]
+    title.text = f"{stickers[idx]} {title_text}"
+
+    tf = body.text_frame
+    tf.clear()
+
+    for point in bullet_points:
+        p = tf.add_paragraph()
+        p.text = point
+        p.font.size = Pt(24)
+
+# Slide 9: Thank You
+slide = prs.slides.add_slide(layout_content)
+title = slide.shapes.title
+body = slide.placeholders[1]
+title.text = f"{stickers[-1]} Thank You"
+body.text = "Thank you for listening!\n\nAny questions?"
+
+# Save the presentation
+pptx_path = '/mnt/data/Benefits_of_Reading_Books.pptx'
+prs.save(pptx_path)
+
+pptx_path
